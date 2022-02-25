@@ -19,7 +19,7 @@ export default function Filter() {
   const [semQuery, setSemQuery] = useState([-1, -1, -1, -1]);
   const [etcQuery, setEtcQuery] = useState([-1, -1, -1, -1]);
 
-  //console.log(interestQuery);
+  const [inputData, setInputData] = useState([]);
 
   const onQualChange = (index) => {
     if (qualQuery[index] == -1) {
@@ -71,17 +71,41 @@ export default function Filter() {
       .post(
         "http://localhost:3060/tagSearch",
         {
-          test: "test!",
           qual: qualQuery,
           sem: semQuery,
           etc: etcQuery,
           interest: iArr,
         },
-        { headers: { "Content-Type": `application/json` } }
+        {
+          headers: { "Content-Type": `application/json` },
+        }
       )
       .then((res) => {
         console.log(res);
+        setInputData(res.data);
+        console.log("inputData :: ", inputData);
       });
+  };
+
+  const listAll = async () => {
+    axios
+      .post(
+        "http://localhost:3060/tagSearch",
+        {
+          qual: [100, 100, 100],
+          sem: semQuery,
+          etc: etcQuery,
+          interest: iArr,
+        },
+        {
+          headers: { "Content-Type": `application/json` },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setInputData(res.data);
+      });
+    console.log("inputData :: ", inputData);
   };
 
   return (
@@ -95,7 +119,7 @@ export default function Filter() {
           >
             초기화
           </Button>
-          <Button color="#006540" variant="ghost">
+          <Button onClick={listAll} color="#006540" variant="ghost">
             전체보기
           </Button>
           <Button onClick={onClick} color="#006540" variant="ghost">
