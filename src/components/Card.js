@@ -2,6 +2,7 @@ import {
   Box,
   Text,
   Flex,
+  Wrap,
   Spacer,
   Button,
   useDisclosure,
@@ -65,34 +66,45 @@ export default function Card({ value }) {
       w="100%"
       h="100%"
     >
-      {/* <Detail onOpen={onOpen} onClose={onClose} isOpen={isOpen} id={id} /> */}
-      <Box
-        borderRadius="50%"
-        borderWidth="0.3rem"
-        borderColor="darkgreen"
-        w="15rem"
-        h="15rem"
-        onClick={onOpen}
-        textAlign="center"
-      >
-        <Text fontWeight="bold" fontSize="2xl" padding="30">
-          {value && value.title}
-        </Text>
-      </Box>
-      {/* <Grid templateColumns={`repeat(2,1fr)`}> */}
-      {attribute().map((tag, index) => (
+      <Flex justify="center" direction="column" align="center">
+        <Detail
+          onOpen={onOpen}
+          onClose={onClose}
+          isOpen={isOpen}
+          id={value.id}
+        />
         <Box
-          mr={2}
-          mb={2}
-          bgColor="hoverGreen"
-          alignItems="center"
-          borderRadius="10%"
+          borderRadius="50%"
+          borderWidth="0.3rem"
+          borderColor="darkgreen"
+          w="15rem"
+          h="15rem"
+          onClick={onOpen}
+          textAlign="center"
+          mb={3}
         >
-          <Text color="#006540" key={index}>
-            {tag}
+          <Text fontWeight="bold" fontSize="2xl" padding="30">
+            {value && value.title}
           </Text>
         </Box>
-      ))}
+
+        <Wrap align="center" justify="center">
+          {attribute().map((tag, index) => (
+            <Box
+              p={1}
+              mr={2}
+              mb={2}
+              bgColor="hoverGreen"
+              alignItems="center"
+              borderRadius="10%"
+            >
+              <Box color="#006540" key={index}>
+                {tag}
+              </Box>
+            </Box>
+          ))}
+        </Wrap>
+      </Flex>
       {/* </Grid> */}
     </Box>
   );
