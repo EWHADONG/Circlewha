@@ -1,5 +1,5 @@
 import { Button } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 export default function BelButton({
   filter,
   index,
@@ -14,7 +14,6 @@ export default function BelButton({
 
   return (
     <Button
-      isChecked={true}
       onClick={() => {
         setChecked(index);
         {

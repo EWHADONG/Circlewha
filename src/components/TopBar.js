@@ -1,13 +1,16 @@
-import { Flex, Image, Button, Spacer, Link } from "@chakra-ui/react";
-import { ViewIcon, SearchIcon } from "@chakra-ui/icons";
+import { Flex, Image, Button, Spacer, Link,Wrap, AlertDialog,AlertDialogOverlay,AlertDialogContent,AlertDialogHeader,AlertDialogBody,AlertDialogFooter, HStack } from "@chakra-ui/react";
+import { SearchIcon,InfoOutlineIcon } from "@chakra-ui/icons";
 import logo from "../../public/logo.svg";
-import { useRouter } from "next/router";
 import NextLink from "next/link";
+import React from "react";
+import { MdFilterListAlt } from "react-icons/md";
 
-import SearchBar from "./SearchBar";
 
 export default function TopBar({ position }) {
-  const router = useRouter();
+  const [isOpen, setIsOpen] = React.useState(false)
+  const onClose = () => setIsOpen(false)
+  const cancelRef = React.useRef()
+
 
   return (
     <Flex
@@ -17,25 +20,29 @@ export default function TopBar({ position }) {
       position={position}
       px="5"
       py="5"
-      border="2px"
-      borderColor="#c6cdb5"
     >
+      <Flex flexDir="row">
       <NextLink href="/">
-        <Image src={logo.src} width="180px" height="50px" />
+        <Image src={logo.src} width="150px" height="80px"  marginLeft="15px" marginRight="330px" />
       </NextLink>
+      <Spacer/>
 
-      <Spacer />
+     
+      <HStack spacing="100px" >
+      
       <NextLink href="/titleSearch" passHref>
         <Link>
           <Button
             leftIcon={<SearchIcon />}
             mr={5}
             color="darkGreen"
-            variant="outline"
-            border="2px"
-            borderColor="darkGreen"
+            variant="link"
+            marginTop="6px"
+            marginRight="2px"
+            
+        
           >
-            검색
+            타이틀 검색
           </Button>
         </Link>
       </NextLink>
@@ -43,16 +50,54 @@ export default function TopBar({ position }) {
       <NextLink href="/tagSearch" passHref>
         <Link>
           <Button
-            leftIcon={<ViewIcon />}
+            leftIcon={<MdFilterListAlt size={20} />}
             color="darkGreen"
-            variant="outline"
-            border="2px"
-            borderColor="darkGreen"
+            variant="link"
+            marginTop="6px"
           >
-            필터로 검색하기
+            필터 검색
           </Button>
         </Link>
       </NextLink>
-    </Flex>
+    
+          <Button
+            leftIcon={<InfoOutlineIcon />}
+            color="darkGreen"
+            variant="link"
+            onClick={() => setIsOpen(true)}
+            
+          
+            
+          >
+           How to use
+          </Button>
+          <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize='2xl' fontWeight='bold'>
+              sorry!
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              해당 탭은 오픈 준비 중입니다:)
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}  color="darkgreen"variant="solid">
+                Cancel
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+      </HStack>
+   </Flex>
+    
+      </Flex>
+  
   );
 }
